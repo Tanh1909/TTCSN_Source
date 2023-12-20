@@ -1,4 +1,4 @@
-package com.example.btl_ttcsn.dto.request;
+package com.example.btl_ttcsn.dto.request.user;
 
 
 import lombok.AllArgsConstructor;

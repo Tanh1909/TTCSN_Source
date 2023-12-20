@@ -1,10 +1,8 @@
 package com.example.btl_ttcsn.controller;
 
 import com.example.btl_ttcsn.base.VsResponseUtil;
-import com.example.btl_ttcsn.dto.request.LocationCreateRequestDTO;
-import com.example.btl_ttcsn.dto.request.ProjectCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.LocationCreateResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectCreateResponseDTO;
+import com.example.btl_ttcsn.dto.request.location.LocationRequestDTO;
+import com.example.btl_ttcsn.dto.response.location.LocationResponseDTO;
 import com.example.btl_ttcsn.service.LocationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,12 +15,12 @@ public class LocationController {
     @Autowired
     private LocationService locationService;
     @PostMapping("/")
-    public ResponseEntity<?> create(@RequestBody LocationCreateRequestDTO locationCreateRequestDTO){
+    public ResponseEntity<?> create(@RequestBody LocationRequestDTO locationCreateRequestDTO){
         return ResponseEntity.ok(VsResponseUtil.success(locationService.create(locationCreateRequestDTO)));
     }
     @PutMapping("/")
-    public ResponseEntity<?> update(@RequestBody LocationCreateResponseDTO locationCreateResponseDTO){
-        return ResponseEntity.ok(VsResponseUtil.success(locationService.update(locationCreateResponseDTO)));
+    public ResponseEntity<?> update(@RequestBody LocationResponseDTO locationResponseDTO){
+        return ResponseEntity.ok(VsResponseUtil.success(locationService.update(locationResponseDTO)));
     }
     @GetMapping("/")
     public ResponseEntity<?> findAll(){

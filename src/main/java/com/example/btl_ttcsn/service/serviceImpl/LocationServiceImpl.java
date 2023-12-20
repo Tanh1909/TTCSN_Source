@@ -1,8 +1,7 @@
 package com.example.btl_ttcsn.service.serviceImpl;
 
-import com.example.btl_ttcsn.dto.request.LocationCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.LocationCreateResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectCreateResponseDTO;
+import com.example.btl_ttcsn.dto.request.location.LocationRequestDTO;
+import com.example.btl_ttcsn.dto.response.location.LocationResponseDTO;
 import com.example.btl_ttcsn.entity.Location;
 import com.example.btl_ttcsn.entity.Project;
 import com.example.btl_ttcsn.exception.NotFoundException;
@@ -25,27 +24,41 @@ public class LocationServiceImpl implements LocationService {
     @Autowired
     ProjectRepository projectRepository;
     @Override
-    public LocationCreateResponseDTO create(LocationCreateRequestDTO locationCreateRequestDTO) {
+    public LocationResponseDTO create(LocationRequestDTO locationCreateRequestDTO) {
         Location location=modelMapper.map(locationCreateRequestDTO,Location.class);
         locationRepository.save(location);
-        return modelMapper.map(location,LocationCreateResponseDTO.class);
+        return modelMapper.map(location, LocationResponseDTO.class);
     }
 
     @Override
-    public LocationCreateResponseDTO update(LocationCreateResponseDTO locationCreateResponseDTO) {
-        Location location=modelMapper.map(locationCreateResponseDTO,Location.class);
-        locationRepository.save(location);
-        return modelMapper.map(location,LocationCreateResponseDTO.class);
+    public LocationResponseDTO update(LocationResponseDTO locationResponseDTO) {
+        Location location=modelMapper.map(locationResponseDTO,Location.class);
+        Location lc=locationRepository.findById(location.getId()).get();
+        if(lc==null){
+            throw new NotFoundException("Not Found Location");
+        }
+        else{
+            lc.setAddress(location.getAddress());
+            lc.setImage(location.getImage());
+            lc.setLat(location.getLat());
+            lc.setLng(location.getLng());
+            lc.setName(location.getName());
+            lc.setPhone(location.getPhone());
+            lc.setRegion(location.getRegion());
+            System.out.println(lc.getId());
+            locationRepository.save(lc);
+            return modelMapper.map(lc, LocationResponseDTO.class);
+        }
     }
 
     @Override
-    public LocationCreateResponseDTO findById(Long id) {
+    public LocationResponseDTO findById(Long id) {
         Location location= locationRepository.findById(id).get();
-        return modelMapper.map(location,LocationCreateResponseDTO.class);
+        return modelMapper.map(location, LocationResponseDTO.class);
     }
 
     @Override
-    public LocationCreateResponseDTO addProject(Long idLocation, Long idProduct) {
+    public LocationResponseDTO addProject(Long idLocation, Long idProduct) {
         Location location=locationRepository.findById(idLocation).orElse(null);
         Project project=projectRepository.findById(idProduct).orElse(null);
         if(project==null){
@@ -56,7 +69,7 @@ public class LocationServiceImpl implements LocationService {
         }
         location.setProject(project);
         locationRepository.save(location);
-        return modelMapper.map(location,LocationCreateResponseDTO.class);
+        return modelMapper.map(location, LocationResponseDTO.class);
     }
 
     @Override
@@ -65,11 +78,11 @@ public class LocationServiceImpl implements LocationService {
     }
 
     @Override
-    public List<LocationCreateResponseDTO> findAll() {
-        List<Location> projects=locationRepository.findAll();
-        List<LocationCreateResponseDTO> list=new ArrayList<>();
-        for(Location x:projects){
-                list.add(modelMapper.map(x,LocationCreateResponseDTO.class));
+    public List<LocationResponseDTO> findAll() {
+        List<Location> locations=locationRepository.findAll();
+        List<LocationResponseDTO> list=new ArrayList<>();
+        for(Location x:locations){
+                list.add(modelMapper.map(x, LocationResponseDTO.class));
             }
         return list;
     }

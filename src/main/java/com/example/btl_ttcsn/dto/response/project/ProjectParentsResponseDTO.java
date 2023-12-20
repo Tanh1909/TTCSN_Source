@@ -1,8 +1,8 @@
-package com.example.btl_ttcsn.dto.response;
+package com.example.btl_ttcsn.dto.response.project;
 
 import com.example.btl_ttcsn.dto.common.UserDetailDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectDetailResponseDTO;
 import com.example.btl_ttcsn.entity.Location;
-import com.example.btl_ttcsn.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

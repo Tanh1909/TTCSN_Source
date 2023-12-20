@@ -1,22 +1,16 @@
-package com.example.btl_ttcsn.entity;
+package com.example.btl_ttcsn.dto.response.location;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.example.btl_ttcsn.entity.Project;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.*;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-@Table(name = "location")
-public class Location {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+public class LocationResponseDTO {
     private Long id;
     private String address;
     private String image;
@@ -25,8 +19,4 @@ public class Location {
     private String name;
     private String phone;
     private String region;
-    @OneToOne
-    @JoinColumn(name = "project_id")
-    @JsonIgnore
-    private Project project;
 }

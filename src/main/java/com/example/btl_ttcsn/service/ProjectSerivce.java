@@ -1,9 +1,9 @@
 package com.example.btl_ttcsn.service;
 
-import com.example.btl_ttcsn.dto.request.ProjectCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.ProjectCreateResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectDetailResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectParentsResponseDTO;
+import com.example.btl_ttcsn.dto.request.project.ProjectCreateRequestDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectCreateResponseDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectDetailResponseDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectParentsResponseDTO;
 
 import java.util.List;
 

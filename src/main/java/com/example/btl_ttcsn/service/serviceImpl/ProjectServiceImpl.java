@@ -1,10 +1,10 @@
 package com.example.btl_ttcsn.service.serviceImpl;
 
 import com.example.btl_ttcsn.dto.common.UserDetailDTO;
-import com.example.btl_ttcsn.dto.request.ProjectCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.ProjectCreateResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectDetailResponseDTO;
-import com.example.btl_ttcsn.dto.response.ProjectParentsResponseDTO;
+import com.example.btl_ttcsn.dto.request.project.ProjectCreateRequestDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectCreateResponseDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectDetailResponseDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectParentsResponseDTO;
 import com.example.btl_ttcsn.entity.Location;
 import com.example.btl_ttcsn.entity.Project;
 import com.example.btl_ttcsn.entity.User;
@@ -38,6 +38,9 @@ public class ProjectServiceImpl implements ProjectSerivce {
     public ProjectParentsResponseDTO addProject(Long idParents,Long idChild) {
         Project projectParents=projectRepository.findById(idParents).orElse(null);
         Project project=projectRepository.findById(idChild).orElse(null);
+        if(projectParents.getId()==project.getId()){
+            throw new NotFoundException("duplicate ID!");
+        }
         if(projectParents==null||project==null){
             throw new NotFoundException("Not Found ID Project!");
         }
@@ -59,16 +62,22 @@ public class ProjectServiceImpl implements ProjectSerivce {
     @Override
     public ProjectCreateResponseDTO update(ProjectCreateResponseDTO projectCreateResponseDTO) {
         Project project=modelMapper.map(projectCreateResponseDTO,Project.class);
-        projectRepository.save(project);
-        return modelMapper.map(project,ProjectCreateResponseDTO.class);
+        Project pj=projectRepository.findById(project.getId()).orElseThrow(()->new NotFoundException("Not Found Project"));
+            pj.setName(project.getName());
+            pj.setMaterial(project.getMaterial());
+            pj.setBudget(project.getBudget());
+            pj.setDescription(project.getDescription());
+            pj.setStatus(project.getStatus());
+            pj.setStartday(project.getStartday());
+            pj.setDeadline(project.getDeadline());
+            projectRepository.save(pj);
+            return modelMapper.map(pj,ProjectCreateResponseDTO.class);
+
     }
 
     @Override
     public void remove(Long id) {
-        Project project=projectRepository.findById(id).get();
-        if(project==null){
-            throw new NotFoundException("Not Found ID Project!");
-        }
+        Project project=projectRepository.findById(id).orElseThrow(()->new NotFoundException("Not Found ID Project!"));
         projectRepository.deleteById(id);
     }
 
@@ -86,10 +95,7 @@ public class ProjectServiceImpl implements ProjectSerivce {
 
     @Override
     public ProjectParentsResponseDTO findById(Long id) {
-        Project project=projectRepository.findById(id).get();
-        if(project==null){
-            throw new NotFoundException("Not Found ID Project!");
-        }
+        Project project=projectRepository.findById(id).orElseThrow(()->new NotFoundException("Not Found ID Project!"));
         ProjectParentsResponseDTO projectParentsResponseDTO=modelMapper.map(project,ProjectParentsResponseDTO.class);
         Location location=project.getLocation();
         if(location!=null){

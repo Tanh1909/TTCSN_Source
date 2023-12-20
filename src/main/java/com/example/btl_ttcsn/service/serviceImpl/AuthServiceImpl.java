@@ -1,7 +1,7 @@
 package com.example.btl_ttcsn.service.serviceImpl;
 
-import com.example.btl_ttcsn.dto.request.LoginRequestDTO;
-import com.example.btl_ttcsn.dto.response.LoginResponseDTO;
+import com.example.btl_ttcsn.dto.request.user.LoginRequestDTO;
+import com.example.btl_ttcsn.dto.response.user.LoginResponseDTO;
 
 import com.example.btl_ttcsn.exception.UnauthorizedException;
 import com.example.btl_ttcsn.security.UserDetailImpl;

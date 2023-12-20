@@ -1,4 +1,4 @@
-package com.example.btl_ttcsn.dto.request;
+package com.example.btl_ttcsn.dto.request.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,7 +12,7 @@ import lombok.Setter;
 public class UserCreateRequestDTO {
     private String name;
     private String username;
-    private String email;
     private String password;
+    private String email;
 
 }

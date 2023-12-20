@@ -1,4 +1,4 @@
-package com.example.btl_ttcsn.dto.response;
+package com.example.btl_ttcsn.dto.response.user;
 
 
 import lombok.Getter;

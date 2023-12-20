@@ -2,27 +2,25 @@ package com.example.btl_ttcsn.service.serviceImpl;
 
 import com.example.btl_ttcsn.Email.EmailService;
 import com.example.btl_ttcsn.dto.common.UserDetailDTO;
-import com.example.btl_ttcsn.dto.request.UserCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.UserCreateResponseDTO;
+import com.example.btl_ttcsn.dto.request.user.UserCreateRequestDTO;
+import com.example.btl_ttcsn.dto.request.user.UserUpdateRequestDTO;
+import com.example.btl_ttcsn.dto.response.user.UserCreateResponseDTO;
+import com.example.btl_ttcsn.dto.response.user.UserUpdateResponseDTO;
 import com.example.btl_ttcsn.entity.Role;
 import com.example.btl_ttcsn.entity.User;
 import com.example.btl_ttcsn.exception.NotFoundException;
 import com.example.btl_ttcsn.exception.UnauthorizedException;
 import com.example.btl_ttcsn.repository.RoleRepository;
 import com.example.btl_ttcsn.repository.UserRepository;
-import com.example.btl_ttcsn.security.UserDetailImpl;
 import com.example.btl_ttcsn.service.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -45,6 +43,9 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findByUsername(user.getUsername())!=null){
             throw new UnauthorizedException("username already exists");
         }
+        if(userRepository.findByEmail(user.getEmail())!=null){
+            throw new UnauthorizedException("email already exists");
+        }
         Role role=roleRepository.findById(1L).orElse(new Role(1L,"user"));
         user.setRole(role);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -53,11 +54,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserCreateResponseDTO update(UserDetailDTO userDetailDTO) {
-        //sua lai id = get current user
-        User user=modelMapper.map(userDetailDTO,User.class);
-        userRepository.save(user);
-        return modelMapper.map(user,UserCreateResponseDTO.class);
+    public UserUpdateResponseDTO update(UserUpdateRequestDTO userUpdateRequestDTO) {
+        User user=modelMapper.map(userUpdateRequestDTO,User.class);
+        User u=userRepository.getById(getCurruntUser().getId());
+            u.setName(user.getName());
+            u.setAge(user.getAge());
+            u.setGender(user.getGender());
+            u.setAddress(user.getAddress());
+            u.setEmail(user.getEmail());
+            u.setPhone(user.getPhone());
+            userRepository.save(u);
+            return modelMapper.map(u,UserUpdateResponseDTO.class);
     }
 
     @Override
@@ -67,7 +74,6 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String forgotPassword(String email) {
-
         try{
 
             String newPassword=generateRandomPassword();
@@ -113,7 +119,9 @@ public class UserServiceImpl implements UserService {
         if(user==null){
             throw new NotFoundException("Not Found User!");
         }
-        return modelMapper.map(user,UserDetailDTO.class);
+        UserDetailDTO userDetailDTO=modelMapper.map(user,UserDetailDTO.class);
+        userDetailDTO.setRole(user.getRole().getName());
+        return userDetailDTO;
     }
     @Override
     public String updatePassword(String password) {

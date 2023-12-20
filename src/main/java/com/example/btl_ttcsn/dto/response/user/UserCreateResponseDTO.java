@@ -1,4 +1,4 @@
-package com.example.btl_ttcsn.dto.response;
+package com.example.btl_ttcsn.dto.response.user;
 
 import com.example.btl_ttcsn.entity.Project;
 import lombok.AllArgsConstructor;
@@ -10,9 +10,9 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationCreateResponseDTO {
+public class UserCreateResponseDTO {
     private Long id;
     private String name;
-    private String address;
-    private String status;
+    private String username;
+    private String email;
 }

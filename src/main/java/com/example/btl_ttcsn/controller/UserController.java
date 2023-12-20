@@ -1,9 +1,8 @@
 package com.example.btl_ttcsn.controller;
 
 import com.example.btl_ttcsn.base.VsResponseUtil;
-import com.example.btl_ttcsn.dto.common.UserDetailDTO;
-import com.example.btl_ttcsn.dto.request.UserCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.UserCreateResponseDTO;
+import com.example.btl_ttcsn.dto.request.user.UserCreateRequestDTO;
+import com.example.btl_ttcsn.dto.request.user.UserUpdateRequestDTO;
 import com.example.btl_ttcsn.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +19,8 @@ public class UserController {
         return ResponseEntity.ok(VsResponseUtil.success(userService.create(userCreateRequestDTO)));
     }
     @PutMapping("")
-    public ResponseEntity<?> update(@RequestBody UserDetailDTO userDetailDTO){
-        return ResponseEntity.ok(VsResponseUtil.success(userService.update(userDetailDTO)));
+    public ResponseEntity<?> update(@RequestBody UserUpdateRequestDTO userUpdateRequestDTO){
+        return ResponseEntity.ok(VsResponseUtil.success(userService.update(userUpdateRequestDTO)));
     }
     @GetMapping("")
     public ResponseEntity<?> getCurrentUser(){

@@ -1,4 +1,4 @@
-package com.example.btl_ttcsn.dto.request;
+package com.example.btl_ttcsn.dto.request.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class LocationCreateRequestDTO {
+public class UserUpdateRequestDTO {
     private String name;
+    private int age;
+    private String gender;
     private String address;
-    private String status;
+    private String email;
+    private String phone;
 }

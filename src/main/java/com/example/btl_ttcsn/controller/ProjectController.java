@@ -1,8 +1,8 @@
 package com.example.btl_ttcsn.controller;
 
 import com.example.btl_ttcsn.base.VsResponseUtil;
-import com.example.btl_ttcsn.dto.request.ProjectCreateRequestDTO;
-import com.example.btl_ttcsn.dto.response.ProjectCreateResponseDTO;
+import com.example.btl_ttcsn.dto.request.project.ProjectCreateRequestDTO;
+import com.example.btl_ttcsn.dto.response.project.ProjectCreateResponseDTO;
 import com.example.btl_ttcsn.service.ProjectSerivce;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
