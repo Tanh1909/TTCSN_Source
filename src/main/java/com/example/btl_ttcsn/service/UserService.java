@@ -6,6 +6,8 @@ import com.example.btl_ttcsn.dto.request.user.UserUpdateRequestDTO;
 import com.example.btl_ttcsn.dto.response.user.UserCreateResponseDTO;
 import com.example.btl_ttcsn.dto.response.user.UserUpdateResponseDTO;
 
+import java.util.List;
+
 public interface UserService {
     UserCreateResponseDTO create(UserCreateRequestDTO userCreateRequestDTO);
     UserUpdateResponseDTO update(UserUpdateRequestDTO userUpdateRequestDTO);
@@ -15,4 +17,5 @@ public interface UserService {
     UserDetailDTO getUserById(Long id);
     String updatePassword(String password);
     void Confirm(String email,String password);
+    List<UserDetailDTO> getAll();
 }

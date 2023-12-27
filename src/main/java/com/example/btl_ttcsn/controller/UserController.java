@@ -43,5 +43,9 @@ public class UserController {
         userService.Confirm(email,password);
         return ResponseEntity.ok(VsResponseUtil.success("successful authentication"));
     }
+    @GetMapping("/all-users")
+    public  ResponseEntity<?> getAll(){
+        return ResponseEntity.ok(VsResponseUtil.success(userService.getAll()));
+    }
 
 }

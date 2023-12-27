@@ -21,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -115,7 +117,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDetailDTO getUserById(Long id) {
-        User user=userRepository.findById(id).get();
+        User user=userRepository.findById(id).orElse(null);
         if(user==null){
             throw new NotFoundException("Not Found User!");
         }
@@ -149,6 +151,16 @@ public class UserServiceImpl implements UserService {
         }
         user.setPassword(passwordEncoder.encode(password));
         userRepository.save(user);
+    }
+
+    @Override
+    public List<UserDetailDTO> getAll() {
+        List<User> users=userRepository.findAll();
+        List<UserDetailDTO> userDetailDTOS=new ArrayList<>();
+        for(User user :users){
+            userDetailDTOS.add(modelMapper.map(user,UserDetailDTO.class));
+        }
+        return userDetailDTOS;
     }
 
     public static String generateRandomPassword() {
